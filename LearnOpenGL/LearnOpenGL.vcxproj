@@ -152,7 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DrawOneTriangle.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="HelloWorld.cpp" />
   </ItemGroup>
