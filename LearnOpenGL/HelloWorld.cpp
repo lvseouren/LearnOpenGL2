@@ -7,12 +7,6 @@ void processInput(GLFWwindow* window);
 void prepareData();
 void render();
 
-float vertices[] = {
-	-0.5f, -0.5f, 0.0f, // left  
-	 0.5f, -0.5f, 0.0f, // right 
-	 0.0f,  0.5f, 0.0f  // top   
-};
-
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "void main()\n"
@@ -26,6 +20,12 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\n\0";
 
+
+float vertices[] = {
+	-0.5f, -0.5f, 0.0f, // left  
+	 0.5f, -0.5f, 0.0f, // right 
+	 0.0f,  0.5f, 0.0f  // top   
+};
 
 unsigned int VBO, VAO;
 int shaderProgram;
@@ -61,14 +61,15 @@ int main()
 		//input
 		processInput(window);
 
-		//render
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		//render
 		render();
 
 		//check and call events, swapbuffer
-		glfwPollEvents();
 		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	glDeleteVertexArrays(1, &VAO);
@@ -115,13 +116,13 @@ void prepareData()
 
 
 	int fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragShader, 1, &fragmentShaderSource, &success);
+	glShaderSource(fragShader, 1, &fragmentShaderSource, NULL);
 	glCompileShader(fragShader);
 
 	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		glGetShaderInfoLog(fragShader, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 
