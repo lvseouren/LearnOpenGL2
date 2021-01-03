@@ -18,8 +18,8 @@ float vertices[] = {
 };
 
 unsigned int indices[] = {
-	0,1,2,
-	2,3,0
+	0,1,3,
+	1,2,3
 };
 
 unsigned int VBO, VAO;
@@ -109,7 +109,8 @@ void prepareData()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* data = stbi_load("cartman.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -144,7 +145,6 @@ void prepareData()
 	//color
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3*sizeof(float)));
 	glEnableVertexAttribArray(1);
-
 
 	//texture
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
