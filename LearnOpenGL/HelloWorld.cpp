@@ -82,9 +82,8 @@ void render()
 {
 	// draw our first triangle
 	shader->use();
-	//float greenValue = (sin(glfwGetTime())) / 2.0f + 0.5f;
-	//int uniLocation = glGetUniformLocation(shaderProgram, "ourColor");
-	//glUniform4f(uniLocation, 0, greenValue, 0, 0);
+	//float offset = (sin(glfwGetTime()));
+	//shader->setInt("offset", offset);
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
