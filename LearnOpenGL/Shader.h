@@ -12,8 +12,8 @@ class Shader
 {
 	int vertexShader;
 	int fragmentShader;
-	int shaderProgram;
 public:
+	int shaderProgram;
 	Shader(const char* vertexPath, const char* fragmentPath)
 	{
 		char* curDir;
