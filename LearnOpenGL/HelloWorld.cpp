@@ -22,7 +22,7 @@ unsigned int indices[] = {
 	1,2,3
 };
 
-unsigned int VBO, VAO;
+unsigned int VBO, VAO, EBO;
 unsigned int texture1, texture2;
 Shader *shader = NULL;
 
@@ -70,6 +70,7 @@ int main()
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 	shader->deleteShader();
 
 	glfwTerminate();
@@ -93,9 +94,9 @@ void render()
 	
 	//float offset = (sin(glfwGetTime()));
 	//shader->setInt("offset", offset);
-	glActiveTexture(texture1);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
-	glActiveTexture(texture2);
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, texture2);
 
 	shader->use();
@@ -116,7 +117,6 @@ void prepareData()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	unsigned int EBO;
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -164,10 +164,10 @@ void prepareData()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	stbi_set_flip_vertically_on_load(true);
-	data = stbi_load("cartman.jpg", &width, &height, &nrChannels, 0);
+	data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -178,6 +178,6 @@ void prepareData()
 
 	shader->use();
 	//shader->setInt("texture1", 0);
-	glUniform1i(glGetUniformLocation(shader->shaderProgram, "texture1"), 0);
+	shader->setInt("texture1", 0);
 	shader->setInt("texture2", 1);
 }
