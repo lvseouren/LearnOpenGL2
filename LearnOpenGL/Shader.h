@@ -91,7 +91,12 @@ public:
 		glDeleteShader(shaderProgram);
 	}
 
-	void setInt(std::string name, float value)
+	void setInt(std::string name, int value)
+	{
+		glUniform1i(glGetUniformLocation(shaderProgram, name.c_str()), value);
+	}
+
+	void setFloat(std::string name, float value)
 	{
 		glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value);
 	}
