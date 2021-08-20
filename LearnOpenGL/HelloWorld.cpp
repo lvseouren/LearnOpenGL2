@@ -11,10 +11,10 @@ void render();
 
 float vertices[] = {
 	// positions          // colors           // texture coords
-	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   2.0f, 2.0f,   // top right
+	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   2.0f, 0.0f,   // bottom right
 	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 2.0f    // top left 
 };
 
 unsigned int indices[] = {
@@ -25,6 +25,8 @@ unsigned int indices[] = {
 unsigned int VBO, VAO, EBO;
 unsigned int texture1, texture2;
 Shader *shader = NULL;
+
+float mixFactor = 0.2;
 
 int main()
 {
@@ -82,10 +84,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+float changeRate = 0.01;
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		mixFactor += changeRate;
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		mixFactor -= changeRate;
 }
 
 void render()
@@ -93,7 +100,7 @@ void render()
 	// draw our first triangle
 	
 	//float offset = (sin(glfwGetTime()));
-	//shader->setInt("offset", offset);
+	shader->setFloat("factor", mixFactor);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 	glActiveTexture(GL_TEXTURE1);
